@@ -1,5 +1,5 @@
 # 学习笔记
-请下载后，或使用在线vscode阅读，否则html可能渲染失效！
+[在线阅读](https://ste1hi.github.io/StudyBlog/)
 
 [2024-03-07blog](./2024-03-07blog.md)
 
