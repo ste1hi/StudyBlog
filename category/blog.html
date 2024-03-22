@@ -67,79 +67,76 @@ Released   : 20100928
 <h1>字符串专题</h1>
 <h2><a href="https://www.luogu.com.cn/problem/P1032">P1032 [NOIP2002 提高组] 字串变换</a></h2>
 <p>一道披着字符串外壳的搜索。直接bfs+剪枝。</p>
-<hr>
+<hr />
 <h2><a href="https://www.luogu.com.cn/problem/P4305">P4305 [JLOI2011] 不重复数字</a></h2>
-<p>用map暴力，T了四个点，加上读入优化</p>
-<div class="highlight"><pre><span></span><code><span class="n">ios</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-<span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-</code></pre></div>
-
-<p>轻松A掉。</p>
-<hr>
+<p>用map暴力，T了四个点，加上读入优化
+<code>c++
+ios::sync_with_stdio(false);
+cin.tie(0);</code>
+轻松A掉。</p>
+<hr />
 <h2><a href="https://www.luogu.com.cn/problem/P1026">P1026 [NOIP2001 提高组] 统计单词个数</a></h2>
 <p><button type="button" id="btn" onclick="a()">显示完整AC代码</button></p>
 <div id="code" style="display:none">
 
+```c++
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<algorithm>
+#include<cstdio>
+#include<cmath>
+#include<vector>
+#include<queue>
+#include<map>
+using namespace std;
 
-<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span>
-<span class="cp">#include</span><span class="cpf">&lt;string&gt;</span>
-<span class="cp">#include</span><span class="cpf">&lt;cstring&gt;</span>
-<span class="cp">#include</span><span class="cpf">&lt;algorithm&gt;</span>
-<span class="cp">#include</span><span class="cpf">&lt;cstdio&gt;</span>
-<span class="cp">#include</span><span class="cpf">&lt;cmath&gt;</span>
-<span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span>
-<span class="cp">#include</span><span class="cpf">&lt;queue&gt;</span>
-<span class="cp">#include</span><span class="cpf">&lt;map&gt;</span>
-<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+int w[210][210],dp[210][50];
+int p,k,ss;
 
-<span class="kt">int</span><span class="w"> </span><span class="n">w</span><span class="p">[</span><span class="mi">210</span><span class="p">][</span><span class="mi">210</span><span class="p">],</span><span class="n">dp</span><span class="p">[</span><span class="mi">210</span><span class="p">][</span><span class="mi">50</span><span class="p">];</span>
-<span class="kt">int</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">ss</span><span class="p">;</span>
+int main(){
+    string temp,s;
+    cin>>p>>k;
+    s+='0';
+    for(int i=0;i<p;i++){
+        cin>>temp;
+        s+=temp;
+    }
+    cin>>ss;
+    string dict[ss+10];
+    for(int i=0;i<ss;i++){
+        cin>>dict[i];
+    }
 
-<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
-<span class="w">    </span><span class="n">string</span><span class="w"> </span><span class="n">temp</span><span class="p">,</span><span class="n">s</span><span class="p">;</span>
-<span class="w">    </span><span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">p</span><span class="o">&gt;&gt;</span><span class="n">k</span><span class="p">;</span>
-<span class="w">    </span><span class="n">s</span><span class="o">+=</span><span class="sc">&#39;0&#39;</span><span class="p">;</span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">p</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
-<span class="w">        </span><span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">temp</span><span class="p">;</span>
-<span class="w">        </span><span class="n">s</span><span class="o">+=</span><span class="n">temp</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">ss</span><span class="p">;</span>
-<span class="w">    </span><span class="n">string</span><span class="w"> </span><span class="n">dict</span><span class="p">[</span><span class="n">ss</span><span class="o">+</span><span class="mi">10</span><span class="p">];</span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">ss</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
-<span class="w">        </span><span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">dict</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-<span class="w">    </span><span class="p">}</span>
+    for(int j=s.length()-1;j>=1;j--){
+        for(int i=j;i>=1;i--){
+            w[i][j]=w[i+1][j];
+            for(int p=0;p<ss;p++){
+                if(s.substr(i,j-i+1).find(dict[p])==0){
+                    w[i][j]++;
+                    break;
+                }
+            }
 
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="mi">-1</span><span class="p">;</span><span class="n">j</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">--</span><span class="p">){</span>
-<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">j</span><span class="p">;</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">--</span><span class="p">){</span>
-<span class="w">            </span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
-<span class="w">            </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">p</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">p</span><span class="o">&lt;</span><span class="n">ss</span><span class="p">;</span><span class="n">p</span><span class="o">++</span><span class="p">){</span>
-<span class="w">                </span><span class="k">if</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">).</span><span class="n">find</span><span class="p">(</span><span class="n">dict</span><span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">==</span><span class="mi">0</span><span class="p">){</span>
-<span class="w">                    </span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
-<span class="w">                    </span><span class="k">break</span><span class="p">;</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
+        }
+    }
 
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">k</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
-<span class="w">        </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">][</span><span class="n">i</span><span class="mi">-1</span><span class="p">]</span><span class="o">+</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">];</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="mi">-1</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
-<span class="w">        </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">];</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="mi">-1</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
-<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">k</span><span class="o">&amp;&amp;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">i</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">){</span>
-<span class="w">            </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="o">=</span><span class="n">j</span><span class="p">;</span><span class="n">l</span><span class="o">&lt;</span><span class="n">i</span><span class="p">;</span><span class="n">l</span><span class="o">++</span><span class="p">){</span>
-<span class="w">                </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span><span class="n">dp</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">j</span><span class="mi">-1</span><span class="p">]</span><span class="o">+</span><span class="n">w</span><span class="p">[</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]);</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">dp</span><span class="p">[</span><span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="mi">-1</span><span class="p">][</span><span class="n">k</span><span class="p">];</span>
-<span class="p">}</span>
-</code></pre></div>
-
-
+    for(int i=1;i<=k;i++){
+        dp[i][i]=dp[i-1][i-1]+w[i][i];
+    }
+    for(int i=1;i<=s.length()-1;i++){
+        dp[i][1]=w[1][i];
+    }
+    for(int i=1;i<=s.length()-1;i++){
+        for(int j=1;j<=k&&j<i;j++){
+            for(int l=j;l<i;l++){
+                dp[i][j]=max(dp[i][j],dp[l][j-1]+w[l+1][i]);
+            }
+        }
+    }
+    cout<<dp[s.length()-1][k];
+}
+```
 
 </div>
 <div id="aa" style="display:none">
@@ -152,55 +149,49 @@ Released   : 20100928
 <li><span class="math">\(w[i][j]\)</span>表示从第<code>i</code>个字符到第<code>j</code>个字符包含的单词数量</li>
 <li><code>l</code>表示分割点</li>
 </ul>
-<hr>
+<hr />
 <p>第<code>i</code>个字符，第<code>j</code>块时包含的单词数量=上一块所包含的单词数量+分割点到第<code>i</code>个字符所包含的单词数量。所以只需要枚举分割点<code>l</code>就好。</p>
 <p>导出状态转移公式：</p>
 <p><span class="math">\(dp[i][j]=max\{dp[i][j],dp[l][j-1]+w[l+1][i]\}\)</span></p>
-<p>其中最大值中有<span class="math">\(dp[i][j]\)</span>项是因为如果初始化后的初始值比修改值大，就不修改。</p>
-<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="mi">-1</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">k</span><span class="o">&amp;&amp;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">i</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">){</span>
-<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="o">=</span><span class="n">j</span><span class="p">;</span><span class="n">l</span><span class="o">&lt;</span><span class="n">i</span><span class="p">;</span><span class="n">l</span><span class="o">++</span><span class="p">){</span>
-<span class="w">            </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span><span class="n">dp</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">j</span><span class="mi">-1</span><span class="p">]</span><span class="o">+</span><span class="n">w</span><span class="p">[</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]);</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<hr>
+<p>其中最大值中有<span class="math">\(dp[i][j]\)</span>项是因为如果初始化后的初始值比修改值大，就不修改。
+<code>c++
+for(int i=1;i&lt;=s.length()-1;i++){
+    for(int j=1;j&lt;=k&amp;&amp;j&lt;i;j++){
+        for(int l=j;l&lt;i;l++){
+            dp[i][j]=max(dp[i][j],dp[l][j-1]+w[l+1][i]);
+        }
+    }
+}</code></p>
+<hr />
 <p><span class="math">\(w[i][j]\)</span>的求法：</p>
-<p>从后往前循环，<span class="math">\(w[i][j]=w[i+1][j]\)</span>如果有单词在<span class="math">\(w[i][j]\)</span>开头（即有单词在<span class="math">\(w[i][j]\)</span>里，不在<span class="math">\(w[i+1][j]\)</span>里）</p>
-<div class="highlight"><pre><span></span><code><span class="c1">// s为总字符串</span>
-<span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="mi">-1</span><span class="p">;</span><span class="n">j</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">--</span><span class="p">){</span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">j</span><span class="p">;</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">--</span><span class="p">){</span>
-<span class="w">        </span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
-<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">p</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">p</span><span class="o">&lt;</span><span class="n">ss</span><span class="p">;</span><span class="n">p</span><span class="o">++</span><span class="p">){</span>
-<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">).</span><span class="n">find</span><span class="p">(</span><span class="n">dict</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">==</span><span class="mi">0</span><span class="p">){</span>
-<span class="w">                </span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
-<span class="w">                </span><span class="k">break</span><span class="p">;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span><span class="w">  </span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<hr>
+<p>从后往前循环，<span class="math">\(w[i][j]=w[i+1][j]\)</span>如果有单词在<span class="math">\(w[i][j]\)</span>开头（即有单词在<span class="math">\(w[i][j]\)</span>里，不在<span class="math">\(w[i+1][j]\)</span>里）
+<code>C++
+// s为总字符串
+for(int j=s.length()-1;j&gt;=1;j--){
+    for(int i=j;i&gt;=1;i--){
+        w[i][j]=w[i+1][j];
+        for(int p=0;p&lt;ss;p++){
+            if(s.substr(i,j-i+1).find(dict[i])==0){
+                w[i][j]++;
+                break;
+            }
+        }  
+    }
+}</code></p>
+<hr />
 <p>关于<code>dp</code>数组的初始化</p>
 <ol>
-<li>首先将其分好块，1个数一块，剩下的数分到最后一块</li>
+<li>首先将其分好块，1个数一块，剩下的数分到最后一块
+<code>c++
+for(int i=1;i&lt;=k;i++){
+    dp[i][i]=dp[i-1][i-1]+w[i][i];
+}</code></li>
+<li>假设每个数都分到第一块，将<code>dp[i][1]</code>初始化为<code>w[1][i]</code>，确保<code>dp[i][1]</code>都有值，否则当<span class="math">\(j=1\)</span>时转移方程中<span class="math">\(dp[i][j-1]\)</span>项不存在。
+<code>c++
+for(int i=1;i&lt;=s.length()-1;i++){
+    dp[i][1]=w[1][i];
+}</code></li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">k</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
-<span class="w">    </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">][</span><span class="n">i</span><span class="mi">-1</span><span class="p">]</span><span class="o">+</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">];</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<ol>
-<li>假设每个数都分到第一块，将<code>dp[i][1]</code>初始化为<code>w[1][i]</code>，确保<code>dp[i][1]</code>都有值，否则当<span class="math">\(j=1\)</span>时转移方程中<span class="math">\(dp[i][j-1]\)</span>项不存在。</li>
-</ol>
-<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="mi">-1</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
-<span class="w">    </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">];</span>
-<span class="p">}</span>
-</code></pre></div>
-
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -267,13 +258,13 @@ Released   : 20100928
 					</div>
 	
 			                <div class="post">
-			                        <h2 class="title">Autres articles</h2>
+			                        <h2 class="title">其他文章</h2>
 			                </div>
         
  
 			                <div class="post summary">
 						<h2 class="title"><a href="https://ste1hi.github.io/StudyBlog/2024-03-15blog.html">2024-03-15blog</a></h2>
-						<p class="meta"><span class="date">Le Fri 15 March 2024</span><span class="posted">Par <a href="#">ste1hi</a></span></p>
+						<p class="meta"><span class="date">日期 Fri 15 March 2024</span><span class="posted">作者 <a href="#">ste1hi</a></span></p>
 						<div style="clear: both;">&nbsp;</div>
 						<div class="entry">
 						 <p>由于电脑宕机，一上午努力白费，凭记忆恢复。</p>
@@ -292,21 +283,24 @@ Released   : 20100928
  
 			                <div class="post summary">
 						<h2 class="title"><a href="https://ste1hi.github.io/StudyBlog/2024-03-07blog.html">2024-03-07blog</a></h2>
-						<p class="meta"><span class="date">Le Thu 07 March 2024</span><span class="posted">Par <a href="#">ste1hi</a></span></p>
+						<p class="meta"><span class="date">日期 Thu 07 March 2024</span><span class="posted">作者 <a href="#">ste1hi</a></span></p>
 						<div style="clear: both;">&nbsp;</div>
 						<div class="entry">
 						 <h1>2024-03-07日记</h1>
 <p>~~GitHub真卡~~</p>
-<hr>
+<hr />
 <h2>尝试很久的一道神奇的<a href="https://sezsyoj.fun/p/383">题目</a></h2>
-<p>其实题不难，可以当一道<code>模拟</code>写。最开始的实现方法如下：</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span>
-<span class="cp">#include</span><span class="cpf">&lt;string&gt;</span>
-<span class="cp">#include</span><span class="cpf">&lt;cstring&gt;</span>
-<span class="cp">#include</span><span class="cpf">&lt;algorithm&gt;</span>
-<span class="cp">#include</span><span class="cpf">&lt;cstdio&gt;</span>
-<span class="cp">#include</span><span class="cpf">&lt;cmath&gt;</span>
-<span class="cp">#include …</span></code></pre></div>	
+<p>其实题不难，可以当一道<code>模拟</code>写。最开始的实现方法如下：
+```c++</p>
+<h1>include<iostream></h1>
+<h1>include<string></h1>
+<h1>include<cstring></h1>
+<h1>include<algorithm></h1>
+<h1>include<cstdio></h1>
+<h1>include<cmath></h1>
+<h1>include<vector></h1>
+<p>using namespace std;
+int after_length …</p>	
 						 <a class="readmore" href="https://ste1hi.github.io/StudyBlog/2024-03-07blog.html">查看更多 …</a>
 						</div>
 					</div>
