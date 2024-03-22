@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="generator" content="Pelican" />
+        <title>2024-03-07blog</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="2024-03-07日记 ~~GitHub真卡~~ 尝试很久的一道神奇的题目 其实题不难，可以当一道模拟写。最开始的实现方法如下： #include<iostream> #include<string> #include<cstring> #include<algorithm>..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">StudyBlog</a></h1>
+                <nav><ul>
+                    <li class="active"><a href="/category/blog.html">Blog</a></li>
+                    <li><a href="/category/summary.html">Summary</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/2024-03-07blog.html" rel="bookmark"
+           title="Permalink to 2024-03-07blog">2024-03-07blog</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2024-03-07T00:00:00+08:00">
+                Published: Thu 07 March 2024
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/ste1hi.html">ste1hi</a>
+        </address>
+<p>In <a href="/category/blog.html">Blog</a>.</p>
+
+</footer><!-- /.post-info -->      <h1>2024-03-07日记</h1>
+<p>~~GitHub真卡~~</p>
+<hr>
+<h2>尝试很久的一道神奇的<a href="https://sezsyoj.fun/p/383">题目</a></h2>
+<p>其实题不难，可以当一道<code>模拟</code>写。最开始的实现方法如下：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span>
+<span class="cp">#include</span><span class="cpf">&lt;string&gt;</span>
+<span class="cp">#include</span><span class="cpf">&lt;cstring&gt;</span>
+<span class="cp">#include</span><span class="cpf">&lt;algorithm&gt;</span>
+<span class="cp">#include</span><span class="cpf">&lt;cstdio&gt;</span>
+<span class="cp">#include</span><span class="cpf">&lt;cmath&gt;</span>
+<span class="cp">#include</span><span class="cpf">&lt;vector&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">after_length</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">temp</span><span class="p">,</span><span class="n">list_counter</span><span class="p">;</span>
+<span class="n">vector</span><span class="w"> </span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">after_list</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">    </span><span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">after_length</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">after_length</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">        </span><span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">temp</span><span class="p">;</span>
+<span class="w">        </span><span class="n">after_list</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">after_list</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">after_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">-1</span><span class="p">){</span>
+<span class="w">            </span><span class="n">list_counter</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">lists</span><span class="p">[</span><span class="n">list_counter</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">after_length</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">present_list_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">array_length</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_list_full</span><span class="p">[</span><span class="n">list_counter</span><span class="p">];</span>
+<span class="w">    </span><span class="n">memset</span><span class="p">(</span><span class="n">is_list_full</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">bool</span><span class="p">)</span><span class="o">*</span><span class="n">list_counter</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">//Array lists&#39; first element is the length of this.</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">list_counter</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">        </span><span class="n">lists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">//Decode the list.</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">after_list</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">,</span><span class="n">present_list_index</span><span class="o">++</span><span class="p">){</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">present_list_index</span><span class="o">==</span><span class="n">list_counter</span><span class="p">){</span>
+<span class="w">            </span><span class="n">present_list_index</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">after_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span><span class="mi">-1</span><span class="p">){</span>
+<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">is_list_full</span><span class="p">[</span><span class="n">present_list_index</span><span class="p">]){</span>
+<span class="w">                </span><span class="n">array_length</span><span class="o">=</span><span class="n">lists</span><span class="p">[</span><span class="n">present_list_index</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+<span class="w">                </span><span class="c1">// cout&lt;&lt;array_length;</span>
+<span class="w">                </span><span class="n">lists</span><span class="p">[</span><span class="n">present_list_index</span><span class="p">][</span><span class="n">array_length</span><span class="p">]</span><span class="o">=</span><span class="n">after_list</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">                </span><span class="n">lists</span><span class="p">[</span><span class="n">present_list_index</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">else</span><span class="p">{</span>
+<span class="w">                </span><span class="c1">//Get next list which is not full.</span>
+<span class="w">                </span><span class="k">while</span><span class="p">(</span><span class="n">is_list_full</span><span class="p">[</span><span class="n">present_list_index</span><span class="p">]){</span>
+<span class="w">                    </span><span class="n">present_list_index</span><span class="o">++</span><span class="p">;</span>
+<span class="w">                    </span><span class="k">if</span><span class="p">(</span><span class="n">present_list_index</span><span class="o">==</span><span class="n">list_counter</span><span class="p">){</span>
+<span class="w">                        </span><span class="n">present_list_index</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">}</span>
+
+<span class="w">                </span><span class="n">array_length</span><span class="o">=</span><span class="n">lists</span><span class="p">[</span><span class="n">present_list_index</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+<span class="w">                </span><span class="n">lists</span><span class="p">[</span><span class="n">present_list_index</span><span class="p">][</span><span class="n">array_length</span><span class="p">]</span><span class="o">=</span><span class="n">after_list</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">                </span><span class="n">lists</span><span class="p">[</span><span class="n">present_list_index</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">is_list_full</span><span class="p">[</span><span class="n">present_list_index</span><span class="p">]){</span>
+<span class="w">                </span><span class="n">is_list_full</span><span class="p">[</span><span class="n">present_list_index</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">else</span><span class="p">{</span>
+<span class="w">                </span><span class="k">while</span><span class="p">(</span><span class="n">is_list_full</span><span class="p">[</span><span class="n">present_list_index</span><span class="p">]){</span>
+<span class="w">                    </span><span class="n">present_list_index</span><span class="o">++</span><span class="p">;</span>
+<span class="w">                    </span><span class="k">if</span><span class="p">(</span><span class="n">present_list_index</span><span class="o">==</span><span class="n">list_counter</span><span class="p">){</span>
+<span class="w">                        </span><span class="n">present_list_index</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">                </span><span class="n">is_list_full</span><span class="p">[</span><span class="n">present_list_index</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">//Output</span>
+<span class="w">    </span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">list_counter</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">list_counter</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">lists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span><span class="n">j</span><span class="o">++</span><span class="p">){</span>
+<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="mi">0</span><span class="p">){</span>
+<span class="w">                </span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">lists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">else</span><span class="p">{</span>
+<span class="w">                </span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot; &quot;</span><span class="o">&lt;&lt;</span><span class="n">lists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>大致思路就是先统计出解码后有几个list，然后维护了个array来存储每个list是不是结束了。之后用一个二维数组存解码出的结果，每个<code>list[i][0]</code>存储当前list的长度+1。</p>
+<p>结果RE，报错<code>Segmentation fault</code>。最难受的是我所有造的数据全部正常通过，然后我只能用oj一点点定位。</p>
+<p><img alt="发疯似定位" src="./resource/2024-03-07-01.png" title="全是我定位搞得"></p>
+<h3>定位方法</h3>
+<p>在代码中添加</p>
+<div class="highlight"><pre><span></span><code><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</code></pre></div>
+
+<p>如果出问题的在下面那么就会报WA，而如果出问题的在上面，报错依旧是RE。</p>
+<p>最后定位出问题的地方大概在</p>
+<div class="highlight"><pre><span></span><code><span class="c1">//Array lists&#39; first element is the length of this.</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">list_counter</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">        </span><span class="n">lists</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+</code></pre></div>
+
+<p>这个for循环中。但这怎么看也不想会有问题的样子，于是又经过一阵摸索发现问题出在<code>lists</code>这个二维数组开太大了，于是将定义由</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">lists</span><span class="p">[</span><span class="n">list_counter</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">after_length</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+</code></pre></div>
+
+<p>改成了</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">lists</span><span class="p">[</span><span class="n">list_counter</span><span class="p">][</span><span class="n">after_length</span><span class="o">/</span><span class="n">list_counter</span><span class="o">*</span><span class="mi">200</span><span class="p">];</span>
+</code></pre></div>
+
+<p>果然不RE了改WA了。~~Damn it~~</p>
+<p>然后莫名一上午就过去了。</p>
+<hr>
+<h2>晚上</h2>
+<p>那道题一上午的折磨给我搞崩溃了，晚上说什么也不想再改了。~~开始划水~~</p>
+<p>一晚上水了两道黄题，难度不是很大，但还是掉坑里了。<code>sort()</code>也就是快排，是不稳定的，当然，STL也有一个稳定的排序<code>stable_sort()</code>，但我用的时候莫名爆内存了，所以最后还是自己写了（数据量不大$o\left ( n^{2}  \right ) $能过）。(2024-03-08补充：换了台电脑<code>stable_sort()</code>又能用了，神奇)</p>
+<p>一天结束了。。。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="https://getpelican.com/">Pelican</a></li>
+                            <li><a href="https://www.python.org/">Python.org</a></li>
+                            <li><a href="https://palletsprojects.com/p/jinja/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a rel="nofollow" href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a rel="nofollow" href="https://www.python.org/">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a rel="nofollow" href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
